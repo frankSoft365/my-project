@@ -1,9 +1,9 @@
-
+import Comment from './components/Comment';
 
 function App() {
   return (
     <div className="App">
-      App,hi,Im frank;
+      <Comment />
     </div>
   );
 }
