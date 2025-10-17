@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { getDateTime } from '../utils/getDateTime';
+import './comment.css';
 
 export default function Comment() {
     const [user, setUser] = useState({ id: '230522512', name: 'frank', image: '../assets/skirk.jpg' });
@@ -19,7 +20,11 @@ export default function Comment() {
                 id: getDateTime() + '' + user.id,
                 commetTime: getDateTime().slice(0, 16),
                 commentContent: comment,
-                commentUser: user,
+                commentUser: {
+                    id: user.id,
+                    name: user.name,
+                    image: user.image
+                },
                 commentLike: 0,
             }
         ]);
@@ -59,19 +64,20 @@ export default function Comment() {
         setUser(user);
     }
     return (
-        <div>
-            <div className='select-user'>
+        <div className='comment-component'>
+            <div className='select-user-dropdown'>
                 <select onChange={e => handleSelect(e)}>
-                    <option value='farnk'>frank</option>
+                    <option value='frank'>frank</option>
                     <option value='tom'>tom</option>
                     <option value='jane'>jane</option>
                 </select>
             </div>
             <div className="current-state-bar">
-                <div>
-                    评论{numOfComments}
+                <div className='text-and-num-of-comments'>
+                    <div className='text'>评论</div>
+                    <div className='num-of-comments'>{numOfComments}</div>
                 </div>
-                <div>
+                <div className='hot-and-last-btn'>
                     <button>
                         最热
                     </button>
@@ -103,7 +109,7 @@ export default function Comment() {
                             <div className='time-like-delete'>
                                 <div>{comment.commetTime}</div>
                                 <div>{comment.commentLike}</div>
-                                <div>{comment.commentUser === user && <button onClick={() => handleDelete(comment.id)}>删除</button>}</div>
+                                <div>{comment.commentUser.id === user.id && <button onClick={() => handleDelete(comment.id)}>删除</button>}</div>
                             </div>
                         </div>
                     );

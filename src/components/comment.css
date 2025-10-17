@@ -1,0 +1,50 @@
+.comment-component {
+    margin: 0;
+    padding: 0;
+    border: 1px solid black;
+    display: flex;
+    flex-direction: column;
+    width: 800px;
+    min-height: 200px;
+}
+
+.current-state-bar {
+    width: 100%;
+    height: 40px;
+    display: flex;
+    padding: 0.5em;
+    align-items: center;
+    justify-content: start;
+}
+
+.text-and-num-of-comments {
+    min-width: 10%;
+    margin-right: 0.5em;
+    display: flex;
+    align-items: center;
+    justify-content: left;
+}
+
+.text-and-num-of-comments .text {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-right: 0.5em;
+}
+
+.text-and-num-of-comments .num-of-comments {
+    font-size: 0.9em;
+    color: rgba(79, 78, 78, 0.743);
+}
+
+.hot-and-last-btn {
+    min-width: 10%;
+    display: flex;
+    align-items: center;
+}
+
+.hot-and-last-btn button {
+    border-style: none;
+    background-color: white;
+    padding-left: 0.6em;
+    padding-right: 0.6em;
+}
