@@ -8,6 +8,7 @@ import fireflyEyeImg from '../assets/fireflyEye.jpg';
 export default function Comment() {
     const [user, setUser] = useState({ id: '230522512', name: 'frank', image: skirkImg });
     const [comment, setComment] = useState('');
+    const [state, setState] = useState('hot');
     const [isFocused, setIsFocused] = useState(false);
     const [comments, setComments] = useState([]);
     const numOfComments = comments.length;
@@ -21,7 +22,8 @@ export default function Comment() {
             ...comments,
             {
                 id: getDateTime() + ' ' + user.id,
-                commetTime: getDateTime().slice(0, 16),
+                commitTime: Date.now(),
+                commentTime: getDateTime().slice(0, 16),
                 commentContent: comment,
                 commentUser: {
                     id: user.id,
@@ -81,6 +83,12 @@ export default function Comment() {
             });
         }));
     }
+    let sortedComments;
+    if (state === 'hot') {
+        sortedComments = comments.slice().sort((a, b) => b.commentLike - a.commentLike);
+    } else {
+        sortedComments = comments.slice().sort((a, b) => b.commitTime - a.commitTime);
+    }
     return (
         <div className='comment-component'>
             <div className='select-user-dropdown'>
@@ -96,11 +104,13 @@ export default function Comment() {
                     <div className='num-of-comments'>{numOfComments}</div>
                 </div>
                 <div className='hot-and-last-btn'>
-                    <button>
+                    <button className={state === 'hot' ? 'last-state' : 'not-last-state'}
+                        onClick={() => setState('hot')}>
                         最热
                     </button>
                     {' | '}
-                    <button>
+                    <button className={state === 'last' ? 'last-state' : 'not-last-state'}
+                        onClick={() => setState('last')}>
                         最新
                     </button>
                 </div>
@@ -122,7 +132,7 @@ export default function Comment() {
                 </div>
             </div>
             <div className='comments-list'>
-                {comments.map((comment) => {
+                {sortedComments.map((comment) => {
                     return (
                         <div className='comment' key={comment.id}>
                             <Profile user={comment.commentUser} />
@@ -130,7 +140,7 @@ export default function Comment() {
                                 <div className='name'>{comment.commentUser.name}</div>
                                 <p className='content'>{comment.commentContent}</p>
                                 <div className='time-like-delete'>
-                                    <div className='flex-item'>{comment.commetTime}</div>
+                                    <div className='flex-item'>{comment.commentTime}</div>
                                     <div className='flex-item like-btn-and-num'>
                                         <button className='like-btn' onClick={() => handleLike(comment.id)}></button>
                                         <div>{comment.commentLike === 0 ? '' : comment.commentLike}</div>
