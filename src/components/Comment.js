@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { getDateTime } from '../utils/getDateTime';
 import './comment.css';
 import skirkImg from '../assets/skirk.jpg';
@@ -10,11 +10,24 @@ export default function Comment() {
     const [comment, setComment] = useState('');
     const [state, setState] = useState('hot');
     const [isFocused, setIsFocused] = useState(false);
+    const [isShowWarning, setIsShowWarning] = useState(false);
+    const [numOfClick, setNumOfClick] = useState(0);
     const [comments, setComments] = useState([]);
     const numOfComments = comments.length;
-    function handleCommit() {
-        if (comment.length === 0) {
-            console.log('no commet, return')
+    const lengthOfComment = comment.length;
+    useEffect(() => {
+        console.log('start a interval');
+        const id = setInterval(() => setIsShowWarning(false), 2000);
+        return () => {
+            clearInterval(id);
+            console.log('clear a interval');
+        };
+    }, [numOfClick]);
+    function handleCommit(e) {
+        if (lengthOfComment === 0) {
+            setNumOfClick(c => c + 1);
+            e.stopPropagation();
+            setIsShowWarning(true);
             return;
         }
         console.log(getDateTime() + user.id + 'is commited');
@@ -90,7 +103,7 @@ export default function Comment() {
         sortedComments = comments.slice().sort((a, b) => b.commitTime - a.commitTime);
     }
     return (
-        <div className='comment-component'>
+        <div className='comment-component' onClick={() => setIsFocused(false)}>
             <div className='select-user-dropdown'>
                 <select onChange={e => handleSelect(e)}>
                     <option value='frank'>frank</option>
@@ -125,10 +138,19 @@ export default function Comment() {
                         placeholder='这里需要一条查重率0%的评论'
                         value={comment}
                         onChange={e => setComment(e.target.value)}
-                        onFocus={() => setIsFocused(true)}
-                        onBlur={() => setIsFocused(false)}
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            setIsFocused(true);
+                        }}
                     />
-                    {isFocused && <button onMouseDown={handleCommit}>发布</button>}
+                    {isFocused && <div className='warning-and-btn'>
+                        <div className='warning-text' hidden={!isShowWarning}>你还没有评论！</div>
+                        <button
+                            className={lengthOfComment === 0 ? 'disabled-btn' : undefined}
+                            onClick={(e) => handleCommit(e)} >
+                            发布
+                        </button>
+                    </div>}
                 </div>
             </div>
             <div className='comments-list'>

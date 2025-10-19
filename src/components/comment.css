@@ -74,6 +74,22 @@
     flex-direction: column;
 }
 
+.comment-input-bar .input-bar-btn .warning-and-btn {
+    display: flex;
+    align-items: center;
+}
+
+.comment-input-bar .input-bar-btn .warning-and-btn:last-child {
+    justify-content: end;
+}
+
+.comment-input-bar .input-bar-btn .warning-and-btn .warning-text {
+    background-color: black;
+    color: aliceblue;
+    padding: 0.2em 0.5em;
+    margin: 0 auto;
+}
+
 .comment-input-bar .input-bar-btn .input-bar {
     min-width: 95%;
     height: 45px;
@@ -96,7 +112,14 @@
     border-radius: 0.5em;
     color: white;
     background-color: rgb(23, 179, 241);
-    align-self: flex-end;
+}
+
+.comment-input-bar .input-bar-btn button:hover {
+    background-color: rgb(23, 179, 241);
+}
+
+.comment-input-bar .input-bar-btn .disabled-btn {
+    background-color: rgba(131, 204, 231, 0.646);
 }
 
 .profile {
