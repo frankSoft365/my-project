@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
-import { getDateTime } from '../utils/getDateTime';
 import './comment.css';
 import skirkImg from '../assets/skirk.jpg';
 import ayakaImg from '../assets/ayaka.jpg';
 import fireflyEyeImg from '../assets/fireflyEye.jpg';
+import { v4 as uuidv4 } from 'uuid';
+import dayjs from 'dayjs';
 
 export default function Comment() {
     const [user, setUser] = useState({ id: '230522512', name: 'frank', image: skirkImg });
@@ -30,13 +31,12 @@ export default function Comment() {
             setIsShowWarning(true);
             return;
         }
-        console.log(getDateTime() + user.id + 'is commited');
         setComments([
             ...comments,
             {
-                id: getDateTime() + ' ' + user.id,
+                id: uuidv4() + ' ' + user.id,
                 commitTime: Date.now(),
-                commentTime: getDateTime().slice(0, 16),
+                commentTime: dayjs(new Date()).format('YYYY-MM-DD HH:mm'),
                 commentContent: comment,
                 commentUser: {
                     id: user.id,
