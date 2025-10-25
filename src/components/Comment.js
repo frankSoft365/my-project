@@ -154,25 +154,29 @@ export default function Comment() {
                 </div>
             </div>
             <div className='comments-list'>
-                {sortedComments.map((comment) => {
-                    return (
-                        <div className='comment' key={comment.id}>
-                            <Profile user={comment.commentUser} />
-                            <div className='name-content-time-like-delete'>
-                                <div className='name'>{comment.commentUser.name}</div>
-                                <p className='content'>{comment.commentContent}</p>
-                                <div className='time-like-delete'>
-                                    <div className='flex-item'>{comment.commentTime}</div>
-                                    <div className='flex-item like-btn-and-num'>
-                                        <button className='like-btn' onClick={() => handleLike(comment.id)}></button>
-                                        <div>{comment.commentLike === 0 ? '' : comment.commentLike}</div>
+                {numOfComments === 0 ?
+                    <div>
+                        没有更多评论
+                    </div>
+                    : sortedComments.map((comment) => {
+                        return (
+                            <div className='comment' key={comment.id}>
+                                <Profile user={comment.commentUser} />
+                                <div className='name-content-time-like-delete'>
+                                    <div className='name'>{comment.commentUser.name}</div>
+                                    <p className='content'>{comment.commentContent}</p>
+                                    <div className='time-like-delete'>
+                                        <div className='flex-item'>{comment.commentTime}</div>
+                                        <div className='flex-item like-btn-and-num'>
+                                            <button className='like-btn' onClick={() => handleLike(comment.id)}></button>
+                                            <div>{comment.commentLike === 0 ? '' : comment.commentLike}</div>
+                                        </div>
+                                        <div className='flex-item'>{comment.commentUser.id === user.id && <button onClick={() => handleDelete(comment.id)}>删除</button>}</div>
                                     </div>
-                                    <div className='flex-item'>{comment.commentUser.id === user.id && <button onClick={() => handleDelete(comment.id)}>删除</button>}</div>
                                 </div>
                             </div>
-                        </div>
-                    );
-                })}
+                        );
+                    })}
             </div>
         </div>
     );
