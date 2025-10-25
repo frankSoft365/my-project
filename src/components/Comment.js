@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import './comment.css';
 import skirkImg from '../assets/skirk.jpg';
 import ayakaImg from '../assets/ayaka.jpg';
@@ -16,6 +16,7 @@ export default function Comment() {
     const [comments, setComments] = useState([]);
     const numOfComments = comments.length;
     const lengthOfComment = comment.length;
+    const inputRef = useRef(null);
     useEffect(() => {
         console.log('start a interval');
         const id = setInterval(() => setIsShowWarning(false), 2000);
@@ -25,9 +26,9 @@ export default function Comment() {
         };
     }, [numOfClick]);
     function handleCommit(e) {
+        e.stopPropagation();
         if (lengthOfComment === 0) {
             setNumOfClick(c => c + 1);
-            e.stopPropagation();
             setIsShowWarning(true);
             return;
         }
@@ -47,6 +48,8 @@ export default function Comment() {
             }
         ]);
         setComment('');
+        inputRef.current.focus();
+        setIsFocused(true);
     }
     function handleDelete(id) {
         setComments(comments.filter(comment => comment.id !== id));
@@ -133,6 +136,7 @@ export default function Comment() {
                 <div className='input-bar-btn'>
                     <input
                         className='input-bar'
+                        ref={inputRef}
                         name='comment'
                         type='text'
                         placeholder='这里需要一条查重率0%的评论'
